@@ -4,4 +4,5 @@ extends Node2D
 
 func spawn_enemy():
 	var enemy = enemy_scene.instantiate()
-	$Path2D.spawn_something(enemy)
+	self.add_child(enemy)
+	$Path2D.start_walk(enemy)

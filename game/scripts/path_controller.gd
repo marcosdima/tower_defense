@@ -1,16 +1,9 @@
+class_name PathController
 extends Path2D
 
-func spawn_something(some: Walker):
-	self.add_child(some)
-	some.walk.connect(
-		func(distance: float):
-			validate_walk(some, distance)
-	)
+func start_walk(walker: Walker):
+	walker.set_path(self)
 
-func validate_walk(walker: Walker, distance: float):
-	var length = curve.get_baked_length()
-	if distance >= length:
-		walker.queue_free()
-		print(walker.name + ' reached the end!')
-	else:
-		walker.progress = distance
+
+func ended(distance: float) -> bool:
+	return distance >= curve.get_baked_length()
