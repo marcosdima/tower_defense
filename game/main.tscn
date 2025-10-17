@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dhftkxav6xu2x"]
 
-[ext_resource type="PackedScene" uid="uid://bxh7518gskb1h" path="res://game/enemy/enemy.tscn" id="1_oa506"]
+[ext_resource type="PackedScene" uid="uid://bxh7518gskb1h" path="res://game/entities/enemy/enemy.tscn" id="1_oa506"]
 [ext_resource type="Script" uid="uid://5otvwa4uic6g" path="res://game/main.gd" id="1_xtpaf"]
 [ext_resource type="Script" uid="uid://dni2tjkcatdpx" path="res://game/scripts/path_controller.gd" id="3_emt18"]
 
