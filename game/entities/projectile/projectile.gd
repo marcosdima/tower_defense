@@ -37,5 +37,8 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _hit_target() -> void:
 	if target and is_instance_valid(target):
-		print("Hit %s for %.1f damage" % [target.name, damage])
+		if target is Enemy:
+			target.receive_damage(damage)
+		else:
+			printerr('Target was not an enemy')
 	queue_free()
