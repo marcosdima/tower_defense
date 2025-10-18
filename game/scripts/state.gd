@@ -13,12 +13,18 @@ func _init(base: Stats) -> void:
 	curr_damage = base.damage
 
 
-func apply_damage(amount: float) -> bool:
+func receive_damage(amount: float) -> bool:
 	curr_health -= amount
 	return curr_health <= 0.0
 
 
-func refresh_stats():
-	curr_speed = base_stats.speed
-	curr_damage = base_stats.damage
-	curr_health = min(curr_health, base_stats.health)
+func refresh_stats(targets: Array = Stats.TYPES.values()):
+	var types = Stats.TYPES
+	for target in targets:
+		match target:
+			types.HEALTH:
+				curr_health = min(curr_health, base_stats.health)
+			types.SPEED:
+				curr_speed = base_stats.speed
+			types.DAMAGE:
+				curr_damage = base_stats.damage
