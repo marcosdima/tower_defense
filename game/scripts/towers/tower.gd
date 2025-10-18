@@ -26,17 +26,18 @@ func _process(_delta: float) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is Walker:
-		targets.append(body)
+	var target = body.get_parent()
+	if target is Enemy:
+		targets.append(target)
 		if current_target == null:
 			_select_new_target()
 
 
-## Routine to
 func _on_body_exited(body: Node2D) -> void:
-	if body in targets:
-		targets.erase(body)
-		if body == current_target:
+	var target = body.get_parent()
+	if target in targets:
+		targets.erase(target)
+		if target == current_target:
 			_select_new_target()
 
 
@@ -65,7 +66,7 @@ func _shoot():
 func _on_find_target_timeout() -> void:
 	if !targets.is_empty():
 		var sorted = targets.filter(is_instance_valid)
-		sorted.sort_custom(func(a, b): return a.path_follower.progress > b.path_follower.progress)
+		sorted.sort_custom(func(a, b): return a.movement.progress > b.movement.progress)
 		current_target = sorted.front()
 		
 		if reloaded:
