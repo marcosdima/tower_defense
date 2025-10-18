@@ -1,6 +1,5 @@
-@tool
 class_name Entity
-extends Node
+extends Node2D
 
 static var entity_counter: int = 0
 var __id: int = -1
@@ -11,16 +10,18 @@ var sprite: Sprite2D
 var body: CharacterBody2D
 var state: State
 
-func _ready() -> void:
+func _init() -> void:
 	# Id setting.
 	__id = entity_counter
 	entity_counter += 1
 	
-	# Set state.
-	state = State.new(stats)
-	
 	# Set component children.
 	_set_children()
+
+
+func _ready() -> void:
+	# Set state.
+	state = State.new(stats)
 
 
 func _notification(what: int) -> void:
