@@ -1,24 +1,31 @@
-[gd_scene load_steps=5 format=3 uid="uid://cypbn0nh8vmd4"]
+[gd_scene load_steps=3 format=3 uid="uid://cypbn0nh8vmd4"]
 
-[ext_resource type="Script" uid="uid://dad2bqel6w314" path="res://game/src/entities/entity.gd" id="1_enl8o"]
-[ext_resource type="Script" uid="uid://d4a76ibu30gjw" path="res://game/scripts/stats.gd" id="2_enl8o"]
-
-[sub_resource type="Resource" id="Resource_enl8o"]
-script = ExtResource("2_enl8o")
-metadata/_custom_type_script = "uid://d4a76ibu30gjw"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_enl8o"]
+[ext_resource type="Script" uid="uid://2dnfpts2fwvu" path="res://game/tests/test.gd" id="1_dc1r1"]
+[ext_resource type="Script" uid="uid://c3igf4cqebveh" path="res://game/UI/hud.gd" id="2_enl8o"]
 
 [node name="Test" type="Node2D"]
+script = ExtResource("1_dc1r1")
 
-[node name="Entity" type="Node" parent="."]
-script = ExtResource("1_enl8o")
-stats = SubResource("Resource_enl8o")
-metadata/_custom_type_script = "uid://dad2bqel6w314"
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("2_enl8o")
 
-[node name="Sprite" type="Sprite2D" parent="Entity"]
+[node name="Top" type="MarginContainer" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Body" type="CharacterBody2D" parent="Entity"]
+[node name="Container" type="HBoxContainer" parent="HUD/Top"]
+layout_mode = 2
+theme_override_constants/separation = 100
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entity/Body"]
-shape = SubResource("CircleShape2D_enl8o")
+[node name="LabelGold" type="Label" parent="HUD/Top/Container"]
+layout_mode = 2
+
+[node name="LabelWave" type="Label" parent="HUD/Top/Container"]
+layout_mode = 2
+
+[node name="LabelLives" type="Label" parent="HUD/Top/Container"]
+layout_mode = 2
