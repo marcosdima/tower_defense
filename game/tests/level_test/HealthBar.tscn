@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://5bru4hl41df7"]
-
-[ext_resource type="Script" uid="uid://c6wr613g6xgv1" path="res://game/UI/health_bar.gd" id="1_nkmns"]
-
-[node name="HealthBar" type="ProgressBar"]
-script = ExtResource("1_nkmns")
