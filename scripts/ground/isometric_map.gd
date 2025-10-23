@@ -10,6 +10,8 @@ enum Type {
 
 @export var width: int = 5
 @export var heigth: int = 5
+@export var initial_direction: Road.Point = Road.Point.TopRight
+@export var end_direction: Road.Point = Road.Point.BottomRight
 
 const coords = [
 	{"type": Type.Dirt, "x": 0, "y": 0},
@@ -28,14 +30,11 @@ const coords = [
 	{"type": Type.Dirt, "x": 5, "y": 2},
 ]
 
-var path_tiles: Array[Road] = []
+var map_road: Array[Road] = []
 
 func _ready() -> void:
 	# Set border with grass.
-	_spawn_floor(Type.Dirt, 0, 0)
-	'''
 	_spawn_floor(Type.Grass, heigth, width)
-	
 	for i in range(-1, max(width, heigth)):
 		if (i < heigth):
 			_spawn_floor(Type.Grass, i, -1)
@@ -46,11 +45,19 @@ func _ready() -> void:
 	
 	# Set path of dirt.
 	var path_memory: Array[Vector2] = []
+	var aux_prev: Road = null
 	for coord in coords:
 		var x = coord['x']
 		var y = coord['y']
 		path_memory.append(Vector2(x, y))
-		_spawn_floor(coord['type'], x, y)
+		
+		var curr = _spawn_floor(coord['type'], x, y)
+		if aux_prev:
+			curr.previus = aux_prev
+			aux_prev.next = curr
+			aux_prev.set_points(initial_direction, end_direction)
+		aux_prev = curr
+	aux_prev.set_points(initial_direction, end_direction)
 	
 	# Fill empty spaces with grass.
 	for i in range(heigth):
@@ -58,7 +65,6 @@ func _ready() -> void:
 			var aux = Vector2(i, j)
 			if path_memory.find(aux) < 0:
 				_spawn_floor(Type.Build, i, j)
-	'''
 
 
 ## Set a floor instance and add it to scene.
@@ -66,7 +72,7 @@ func _spawn_floor(
 	type: Type,
 	gx: int = 0,
 	gy: int = 0,
-):
+) -> Ground:
 	var floor_obj = get_floor(type, gx, gy)
 	
 	var pos = _calculate_position(gx, gy, floor_obj.sprite_size)
@@ -76,6 +82,8 @@ func _spawn_floor(
 	floor_obj.y_sort_enabled = true
 	
 	add_child(floor_obj)
+	
+	return floor_obj
 
 
 ## Calculate ground position with the provided coordinate.
@@ -92,7 +100,7 @@ func get_floor(type: Type, x: int, y: int) -> Ground:
 			return Build.new(x, y)
 		Type.Dirt:
 			var road = Road.new(x, y)
-			path_tiles.append(road)
+			map_road.append(road)
 			return road
 		_:
 			return Ground.new(x, y)
