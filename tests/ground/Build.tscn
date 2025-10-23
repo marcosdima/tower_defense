@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2rdifrjssi40"]
+
+[ext_resource type="Script" uid="uid://bkxw3e6vqsiss" path="res://scripts/ground/types/build.gd" id="1_gk718"]
+[ext_resource type="Texture2D" uid="uid://o5fe8iyp6jug" path="res://assets/ground/grass.png" id="2_exacl"]
+[ext_resource type="Script" uid="uid://k5qtmfa2dinn" path="res://scripts/handlers/path.gd" id="3_02n7m"]
+
+[sub_resource type="Curve2D" id="Curve2D_50y6n"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 29, -41, 0, 0, 0, 0, 0, -23, 0, 0, 0, 0, -29, -4)
+}
+point_count = 3
+
+[node name="Build" type="Area2D"]
+script = ExtResource("1_gk718")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_exacl")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, 6, -49, -22, 1, -44, 39, -23)
+
+[node name="Path" type="Path2D" parent="."]
+curve = SubResource("Curve2D_50y6n")
+script = ExtResource("3_02n7m")
+metadata/_custom_type_script = "uid://k5qtmfa2dinn"

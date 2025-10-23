@@ -1,8 +1,14 @@
 class_name Walker
 extends PathFollow2D
 
+enum Direction {
+	Left,
+	Right,
+}
+
 var path: Path
-var buddy: Entity
+var buddy: Enemy
+var is_walking: bool = false
 
 func _init(ente: Entity) -> void:
 	buddy = ente
@@ -13,8 +19,13 @@ func _process(delta):
 		var distance = progress + (buddy.state.curr_speed * delta)
 		if path.ended(distance):
 			path.remove_child(self)
-		else:
-			walk_distance(distance)
+			is_walking = false
+			return
+		
+		walk_distance(distance)
+		
+		if not is_walking:
+			is_walking = true
 
 
 func set_path(new_path: Path):

@@ -1,0 +1,115 @@
+[gd_scene load_steps=12 format=3 uid="uid://biv8eprtwm7qi"]
+
+[ext_resource type="Script" uid="uid://ds2eg48qm7xyn" path="res://scripts/classes/entities/enemies/enemy.gd" id="1_lsqmp"]
+[ext_resource type="Script" uid="uid://d4a76ibu30gjw" path="res://scripts/classes/entities/resources/stats.gd" id="2_vi7gv"]
+[ext_resource type="Texture2D" uid="uid://dxehryjhup2qa" path="res://assets/enemies/base/left.png" id="3_45h3d"]
+[ext_resource type="Texture2D" uid="uid://cwdhohgajucod" path="res://assets/enemies/base/right.png" id="4_f4qun"]
+
+[sub_resource type="Resource" id="Resource_cnnvr"]
+script = ExtResource("2_vi7gv")
+speed = 50.0
+metadata/_custom_type_script = "uid://d4a76ibu30gjw"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cnnvr"]
+radius = 27.018513
+
+[sub_resource type="Animation" id="Animation_1txqt"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_yir3l"]
+resource_name = "turn_left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_45h3d")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.06666667, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.19607843), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_nltit"]
+resource_name = "turn_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_f4qun")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.06666667, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.19607843), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cnnvr"]
+resource_name = "walking"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 3.999999, 1),
+"update": 0,
+"values": [0.0, -10.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1txqt"]
+_data = {
+&"RESET": SubResource("Animation_1txqt"),
+&"turn_left": SubResource("Animation_yir3l"),
+&"turn_right": SubResource("Animation_nltit"),
+&"walking": SubResource("Animation_cnnvr")
+}
+
+[node name="Base" type="Node2D"]
+script = ExtResource("1_lsqmp")
+stats = SubResource("Resource_cnnvr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_45h3d")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CircleShape2D_cnnvr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_1txqt")
+}

@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://bywqgc4mrv5qa"]
+
+[ext_resource type="Script" uid="uid://bkvoij20sx8tv" path="res://scripts/classes/towers/tower.gd" id="1_88iu1"]
+[ext_resource type="Texture2D" uid="uid://dirks2gud5hn7" path="res://assets/towers/yellow/yellow_bottom.png" id="1_aey6g"]
+[ext_resource type="Texture2D" uid="uid://ckbgpuo1ktc7t" path="res://assets/towers/yellow/yellow_up.png" id="2_88iu1"]
+[ext_resource type="PackedScene" uid="uid://c0yldhxkwm6yg" path="res://scenes/projectiles/Rock.tscn" id="2_vjduy"]
+
+[node name="Tower" type="Node2D"]
+script = ExtResource("1_88iu1")
+projectile_scene = ExtResource("2_vjduy")
+
+[node name="Bottom" type="Sprite2D" parent="."]
+texture = ExtResource("1_aey6g")
+
+[node name="Up" type="Sprite2D" parent="."]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, -33.485)
+texture = ExtResource("2_88iu1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+z_index = 18
+y_sort_enabled = true
+polygon = PackedVector2Array(0, -85, -167, 12, 0, 109, 168, 12)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Reload" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="FindTarget" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="Timers/Reload" to="." method="_on_reload_timeout"]
+[connection signal="timeout" from="Timers/FindTarget" to="." method="_on_find_target_timeout"]
