@@ -28,7 +28,7 @@ func _on_mouse_exited():
 
 ## On input capted.
 func _handle_input_event(_viewport: Node, event: InputEvent, _shape_idx: int):
-	if event is InputEventMouseButton and event.is_released():
+	if event is InputEventMouseButton and event.is_released() and not builded:
 		_build_tower()
 
 
@@ -49,8 +49,10 @@ func _go_down():
 ## Instantiate a tower scene.
 func _build_tower():
 	builded = true
+	mouse_def = Input.CURSOR_ARROW
 	_go_down()
+	
 	var tower = preload("res://scenes/tower/Tower.tscn").instantiate()
 	tower.position.y -= 30
-	tower.z_index += 1
+	tower.z_index = 1000
 	add_child(tower)

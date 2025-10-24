@@ -67,6 +67,7 @@ stats = SubResource("Resource_vi7gv")
 
 [node name="Shadow" type="Node2D" parent="."]
 modulate = Color(1, 1, 1, 0.39215687)
+z_index = 2
 position = Vector2(0, 21.999998)
 scale = Vector2(0.18000038, 0.0515715)
 script = ExtResource("4_lsqmp")
@@ -74,12 +75,12 @@ radio = 10.0
 metadata/_custom_type_script = "uid://wk1mp0hsqtk6"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 1
+z_index = 2
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_45h3d")
 
 [node name="BottomLayer" type="Node2D" parent="Sprite2D"]
-z_index = -2
+z_index = -1
 y_sort_enabled = true
 position = Vector2(0, 39.999996)
 scale = Vector2(17.399988, 9.829923)

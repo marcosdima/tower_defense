@@ -1,6 +1,7 @@
 class_name Entity
 extends Node2D
 
+const ENTITY_Z_INDEX = 100
 const WALKING = "walking"
 const TURN_LEFT = 'turn_left'
 const TURN_RIGHT = 'turn_right'
@@ -27,7 +28,7 @@ func _init() -> void:
 	
 	# Set some attributes.
 	y_sort_enabled = true
-	z_index = 10
+	z_index = ENTITY_Z_INDEX
 	
 	# Set movement.
 	movement = Walker.new(self)
@@ -39,6 +40,8 @@ func _ready() -> void:
 
 
 func _process(_delta):
+	z_index = int(ENTITY_Z_INDEX + movement.progress)
+	
 	if animate and movement:
 		if movement.is_walking:
 			if not animate.is_playing():
