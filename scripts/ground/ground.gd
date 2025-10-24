@@ -31,6 +31,15 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 
 
+func _move_up_down():
+	var tween = create_tween()
+	var start_pos = sprite.position
+	var down_pos = start_pos + Vector2(0, 20)
+	
+	tween.tween_property(sprite, "position", down_pos, 0.15)
+	tween.tween_property(sprite, "position", start_pos, 0.15)
+
+
 ## On mouse entered.
 func _on_mouse_entered():
 	Input.set_default_cursor_shape(mouse_def)

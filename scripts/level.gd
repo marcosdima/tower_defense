@@ -43,7 +43,7 @@ func start_level() -> void:
 	for road in map.map_road:
 		for point in road.points:
 			path.curve.add_point(road.position + point)
-		road._move_up()
+		road._move_up_down()
 		await get_tree().create_timer(0.1).timeout
 
 
