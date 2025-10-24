@@ -1,0 +1,85 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnk3jwqb5k7lf"]
+
+[ext_resource type="Script" uid="uid://c3igf4cqebveh" path="res://UI/hud/hud.gd" id="1_2fjfc"]
+[ext_resource type="FontFile" uid="uid://bwnt43s0onu1e" path="res://assets/font/breamcatcher rg.otf" id="2_lc7ts"]
+[ext_resource type="Texture2D" uid="uid://dx36q0hvrtg3" path="res://assets/icons/play.png" id="3_c8tk3"]
+
+[node name="Hud" type="CanvasLayer"]
+follow_viewport_enabled = true
+script = ExtResource("1_2fjfc")
+
+[node name="Top" type="MarginContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="TopHorizontal" type="HBoxContainer" parent="Top"]
+layout_mode = 2
+theme_override_constants/separation = 43
+
+[node name="Lives" type="HBoxContainer" parent="Top/TopHorizontal"]
+layout_mode = 2
+
+[node name="LivesLabel" type="Label" parent="Top/TopHorizontal/Lives"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lc7ts")
+theme_override_font_sizes/font_size = 45
+text = "Lives: 3"
+
+[node name="Wave" type="HBoxContainer" parent="Top/TopHorizontal"]
+layout_mode = 2
+
+[node name="WaveLabel" type="Label" parent="Top/TopHorizontal/Wave"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lc7ts")
+theme_override_font_sizes/font_size = 45
+text = "Wave: 0"
+
+[node name="Gold" type="HBoxContainer" parent="Top/TopHorizontal"]
+layout_mode = 2
+
+[node name="GoldLabel" type="Label" parent="Top/TopHorizontal/Gold"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lc7ts")
+theme_override_font_sizes/font_size = 45
+text = "Gold: 10"
+
+[node name="NextWave" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Container" type="HBoxContainer" parent="NextWave"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="NextWaveLabel" type="Label" parent="NextWave/Container"]
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lc7ts")
+theme_override_font_sizes/font_size = 45
+text = "Next Wave in 120s"
+
+[node name="Control" type="Control" parent="NextWave/Container"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="Next" type="Button" parent="NextWave/Container/Control"]
+layout_mode = 0
+offset_top = 5.5
+offset_right = 100.0
+offset_bottom = 74.5
+scale = Vector2(0.595, 0.595)
+icon = ExtResource("3_c8tk3")
+icon_alignment = 1
+
+[connection signal="pressed" from="NextWave/Container/Control/Next" to="." method="_on_next_pressed"]
