@@ -20,19 +20,6 @@ func _init(x: int, y: int) -> void:
 	super(x, y)
 
 
-func _set_path():
-	path = Path.new()
-	path.z_index += 1
-	
-	for point in points:
-		path.curve.add_point(point) 
-	
-	add_child(path)
-	
-	if next:
-		path.walk_ended.connect(next.receive_entity)
-
-
 func set_points(initial: Point, end: Point):
 	points = []
 	
@@ -59,12 +46,6 @@ func set_points(initial: Point, end: Point):
 	match_func.call(_get_from(initial))
 	points.append(center)
 	match_func.call(_get_to(end))
-	_set_path()
-
-
-func receive_entity(e: Enemy):
-	path.start_walk(e)
-	e.z_index = x_coord + y_coord
 
 
 func _get_from(initial: Point) -> Point:

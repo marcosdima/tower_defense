@@ -8,45 +8,33 @@ enum Type {
 	Build,
 }
 
-@export var width: int = 5
-@export var heigth: int = 5
-@export var initial_direction: Road.Point = Road.Point.TopRight
-@export var end_direction: Road.Point = Road.Point.BottomRight
+var width: int = 4
+var height: int = 6
+var initial_direction: Road.Point = Road.Point.TopRight
+var end_direction: Road.Point = Road.Point.BottomRight
 
-const coords = [
-	{"type": Type.Dirt, "x": 0, "y": 0},
-	{"type": Type.Dirt, "x": 0, "y": 1},
-	{"type": Type.Dirt, "x": 0, "y": 2},
-	{"type": Type.Dirt, "x": 0, "y": 3},
-	{"type": Type.Dirt, "x": 1, "y": 3},
-	{"type": Type.Dirt, "x": 2, "y": 3},
-	{"type": Type.Dirt, "x": 2, "y": 2},
-	{"type": Type.Dirt, "x": 2, "y": 1},
-	{"type": Type.Dirt, "x": 2, "y": 0},
-	{"type": Type.Dirt, "x": 3, "y": 0},
-	{"type": Type.Dirt, "x": 4, "y": 0},
-	{"type": Type.Dirt, "x": 4, "y": 1},
-	{"type": Type.Dirt, "x": 4, "y": 2},
-	{"type": Type.Dirt, "x": 5, "y": 2},
-]
-
+var map_road_coords: Array[Dictionary] = []:
+	set(value):
+		if !value.is_empty():
+			map_road_coords = value
+			set_map()
 var map_road: Array[Road] = []
 
-func _ready() -> void:
+func set_map() -> void:
 	# Set border with grass.
-	_spawn_floor(Type.Grass, heigth, width)
-	for i in range(-1, max(width, heigth)):
-		if (i < heigth):
+	_spawn_floor(Type.Grass, height, width)
+	for i in range(-1, max(width, height)):
+		if (i < height):
 			_spawn_floor(Type.Grass, i, -1)
 			_spawn_floor(Type.Grass, i, width)
 		if (i < width):
 			_spawn_floor(Type.Grass, -1, i)
-			_spawn_floor(Type.Grass, heigth, i)
+			_spawn_floor(Type.Grass, height, i)
 	
 	# Set path of dirt.
 	var path_memory: Array[Vector2] = []
 	var aux_prev: Road = null
-	for coord in coords:
+	for coord in map_road_coords:
 		var x = coord['x']
 		var y = coord['y']
 		path_memory.append(Vector2(x, y))
@@ -60,7 +48,7 @@ func _ready() -> void:
 	aux_prev.set_points(initial_direction, end_direction)
 	
 	# Fill empty spaces with grass.
-	for i in range(heigth):
+	for i in range(height):
 		for j in range(width):
 			var aux = Vector2(i, j)
 			if path_memory.find(aux) < 0:
@@ -78,7 +66,7 @@ func _spawn_floor(
 	var pos = _calculate_position(gx, gy, floor_obj.sprite_size)
 	
 	floor_obj.global_position = pos
-	floor_obj.z_index = gx + gy
+	floor_obj.z_index = (gx * 10) + gy
 	floor_obj.y_sort_enabled = true
 	
 	add_child(floor_obj)
