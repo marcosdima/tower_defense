@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbo0lp3ou2o8h"]
+[gd_scene load_steps=6 format=3 uid="uid://cbo0lp3ou2o8h"]
 
 [ext_resource type="Script" uid="uid://b7pg20ddakras" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://xvl6ahwt7kvh" path="res://scripts/level.gd" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://crj6a6rg3qy5s" path="res://UI/menus/MainMenu.tscn" id="2_lquwl"]
-[ext_resource type="PackedScene" uid="uid://dfwxtn8fnpex5" path="res://scenes/enemies/Ufo.tscn" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://dbrmg2xwmnm8x" path="res://scripts/handlers/game.gd" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cxreku3fjrosy" path="res://scenes/levels/level_1.tscn" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dnk3jwqb5k7lf" path="res://UI/hud/HUD.tscn" id="5_lquwl"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -20,19 +21,11 @@ script = ExtResource("1_ig7tw")
 [node name="MainMenu" parent="." instance=ExtResource("2_lquwl")]
 layout_mode = 1
 
-[node name="Level" type="Node2D" parent="."]
-visible = false
-z_index = 1
-position = Vector2(659, 182)
-script = ExtResource("2_h2yge")
-enemy = ExtResource("3_1bvp3")
-metadata/_custom_type_script = "uid://xvl6ahwt7kvh"
-
-[node name="Button" type="Button" parent="Level"]
-offset_left = -490.0
-offset_top = 314.0
-offset_right = -190.0
-offset_bottom = 378.0
+[node name="Game" type="Node2D" parent="."]
+script = ExtResource("3_h2yge")
+level_scene = ExtResource("4_lquwl")
+hud_scene = ExtResource("5_lquwl")
+metadata/_custom_type_script = "uid://dbrmg2xwmnm8x"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
@@ -50,4 +43,3 @@ color = Color(0.36862746, 0.5764706, 0.42352942, 1)
 metadata/_edit_group_ = true
 
 [connection signal="lets_play" from="MainMenu" to="." method="_on_main_menu_lets_play"]
-[connection signal="pressed" from="Level/Button" to="Level" method="_on_button_pressed"]

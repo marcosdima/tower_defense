@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxreku3fjrosy"]
+
+[ext_resource type="Script" uid="uid://xvl6ahwt7kvh" path="res://scripts/level.gd" id="1_ksju7"]
+[ext_resource type="PackedScene" uid="uid://dfwxtn8fnpex5" path="res://scenes/enemies/Ufo.tscn" id="2_6iamk"]
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_ksju7")
+enemy = ExtResource("2_6iamk")
+time_between_spawn = 1.0
+metadata/_custom_type_script = "uid://xvl6ahwt7kvh"

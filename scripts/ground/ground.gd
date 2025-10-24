@@ -5,6 +5,7 @@ enum Type {
 	Grass,
 	Dirt,
 	Build,
+	Tower,
 }
 
 var type: Type = Type.Grass

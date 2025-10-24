@@ -7,12 +7,9 @@ var height: int = 6
 var initial_direction: Road.Point = Road.Point.TopRight
 var end_direction: Road.Point = Road.Point.BottomRight
 
-var map_road_coords: Array[Dictionary] = []:
-	set(value):
-		if !value.is_empty():
-			map_road_coords = value
-			set_map()
+var map_road_coords: Array[Dictionary] = []
 var map_road: Array[Road] = []
+var tower_position: Vector2i
 
 func set_map() -> void:
 	# Set border with grass.
@@ -26,12 +23,12 @@ func set_map() -> void:
 			_spawn_floor(Ground.Type.Grass, height, i)
 	
 	# Set path of dirt.
-	var path_memory: Array[Vector2] = []
+	var path_memory: Array[Vector2i] = []
 	var aux_prev: Road = null
 	for coord in map_road_coords:
 		var x = coord['x']
 		var y = coord['y']
-		path_memory.append(Vector2(x, y))
+		path_memory.append(Vector2i(x, y))
 		
 		var curr = _spawn_floor(coord['type'], x, y)
 		if aux_prev:
@@ -41,10 +38,14 @@ func set_map() -> void:
 		aux_prev = curr
 	aux_prev.set_points(initial_direction, end_direction)
 	
+	# Set tower position.
+	path_memory.append(tower_position)
+	_spawn_floor(Ground.Type.Tower, tower_position.x, tower_position.y)
+	
 	# Fill empty spaces with grass.
 	for i in range(height):
 		for j in range(width):
-			var aux = Vector2(i, j)
+			var aux = Vector2i(i, j)
 			if path_memory.find(aux) < 0:
 				_spawn_floor(Ground.Type.Build, i, j)
 
@@ -84,5 +85,7 @@ func get_floor(type: Ground.Type, x: int, y: int) -> Ground:
 			var road = Road.new(x, y)
 			map_road.append(road)
 			return road
+		Ground.Type.Tower:
+			return TowerGround.new(x, y)
 		_:
 			return Ground.new(x, y)

@@ -1,14 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2rdifrjssi40"]
+[gd_scene load_steps=7 format=3 uid="uid://c2rdifrjssi40"]
 
 [ext_resource type="Script" uid="uid://bkxw3e6vqsiss" path="res://scripts/ground/types/build.gd" id="1_gk718"]
 [ext_resource type="Texture2D" uid="uid://o5fe8iyp6jug" path="res://assets/ground/grass.png" id="2_exacl"]
 [ext_resource type="Script" uid="uid://k5qtmfa2dinn" path="res://scripts/handlers/path.gd" id="3_02n7m"]
+[ext_resource type="Texture2D" uid="uid://dirks2gud5hn7" path="res://assets/towers/yellow/yellow_bottom.png" id="4_50y6n"]
 
 [sub_resource type="Curve2D" id="Curve2D_50y6n"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 29, -41, 0, 0, 0, 0, 0, -23, 0, 0, 0, 0, -29, -4)
+"points": PackedVector2Array(0, 0, 0, 0, 29, -40, 0, 0, 0, 0, -30, -5)
 }
-point_count = 3
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_02n7m"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -29, -40, 0, 0, 0, 0, 30, -5)
+}
+point_count = 2
 
 [node name="Build" type="Area2D"]
 script = ExtResource("1_gk718")
@@ -23,3 +30,15 @@ polygon = PackedVector2Array(0, 6, -49, -22, 1, -44, 39, -23)
 curve = SubResource("Curve2D_50y6n")
 script = ExtResource("3_02n7m")
 metadata/_custom_type_script = "uid://k5qtmfa2dinn"
+
+[node name="Path2" type="Path2D" parent="."]
+visible = false
+curve = SubResource("Curve2D_02n7m")
+script = ExtResource("3_02n7m")
+metadata/_custom_type_script = "uid://k5qtmfa2dinn"
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+
+[node name="YellowBottom" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
+texture = ExtResource("4_50y6n")
