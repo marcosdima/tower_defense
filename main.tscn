@@ -1,45 +1,53 @@
-[gd_scene load_steps=7 format=3 uid="uid://cbo0lp3ou2o8h"]
+[gd_scene load_steps=5 format=3 uid="uid://cbo0lp3ou2o8h"]
 
 [ext_resource type="Script" uid="uid://b7pg20ddakras" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://mmvdv0e64447" path="res://scripts/ground/isometric_map.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://xvl6ahwt7kvh" path="res://scripts/level.gd" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://crj6a6rg3qy5s" path="res://UI/menus/MainMenu.tscn" id="2_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dfwxtn8fnpex5" path="res://scenes/enemies/Ufo.tscn" id="3_1bvp3"]
-[ext_resource type="Script" uid="uid://k5qtmfa2dinn" path="res://scripts/handlers/path.gd" id="6_272bh"]
 
-[sub_resource type="Curve2D" id="Curve2D_5vw27"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, -30, -193, 0, 0, 0, 0, -203, -88, 0, 0, 0, 0, -92, -21, 0, 0, 0, 0, 95, -126, 0, 0, 0, 0, 213, -54, 0, 0, 0, 0, 93, 14, 0, 0, 0, 0, 157, 51)
-}
-point_count = 7
-
-[node name="Main" type="Node2D"]
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
 script = ExtResource("1_ig7tw")
 
+[node name="MainMenu" parent="." instance=ExtResource("2_lquwl")]
+layout_mode = 1
+
 [node name="Level" type="Node2D" parent="."]
+visible = false
+z_index = 1
+position = Vector2(659, 182)
 script = ExtResource("2_h2yge")
 enemy = ExtResource("3_1bvp3")
-
-[node name="Path" type="Path2D" parent="Level"]
-visible = false
-z_index = 8
-y_sort_enabled = true
-curve = SubResource("Curve2D_5vw27")
-script = ExtResource("6_272bh")
-metadata/_custom_type_script = "uid://k5qtmfa2dinn"
-
-[node name="IsometricMap" type="Node2D" parent="Level"]
-position = Vector2(-27, -178)
-script = ExtResource("2_0xm2m")
-width = 4
-heigth = 6
-metadata/_custom_type_script = "uid://mmvdv0e64447"
+metadata/_custom_type_script = "uid://xvl6ahwt7kvh"
 
 [node name="Button" type="Button" parent="Level"]
-offset_left = -482.0
-offset_top = 196.0
-offset_right = -182.0
-offset_bottom = 260.0
+offset_left = -490.0
+offset_top = 314.0
+offset_right = -190.0
+offset_bottom = 378.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
 
+[node name="TextureRect" type="ColorRect" parent="."]
+z_index = -15
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.36862746, 0.5764706, 0.42352942, 1)
+metadata/_edit_group_ = true
+
+[connection signal="lets_play" from="MainMenu" to="." method="_on_main_menu_lets_play"]
 [connection signal="pressed" from="Level/Button" to="Level" method="_on_button_pressed"]
