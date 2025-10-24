@@ -2,12 +2,6 @@
 class_name IsometricMap
 extends Node2D
 
-enum Type {
-	Grass,
-	Dirt,
-	Build,
-}
-
 var width: int = 4
 var height: int = 6
 var initial_direction: Road.Point = Road.Point.TopRight
@@ -22,14 +16,14 @@ var map_road: Array[Road] = []
 
 func set_map() -> void:
 	# Set border with grass.
-	_spawn_floor(Type.Grass, height, width)
+	_spawn_floor(Ground.Type.Grass, height, width)
 	for i in range(-1, max(width, height)):
 		if (i < height):
-			_spawn_floor(Type.Grass, i, -1)
-			_spawn_floor(Type.Grass, i, width)
+			_spawn_floor(Ground.Type.Grass, i, -1)
+			_spawn_floor(Ground.Type.Grass, i, width)
 		if (i < width):
-			_spawn_floor(Type.Grass, -1, i)
-			_spawn_floor(Type.Grass, height, i)
+			_spawn_floor(Ground.Type.Grass, -1, i)
+			_spawn_floor(Ground.Type.Grass, height, i)
 	
 	# Set path of dirt.
 	var path_memory: Array[Vector2] = []
@@ -52,12 +46,12 @@ func set_map() -> void:
 		for j in range(width):
 			var aux = Vector2(i, j)
 			if path_memory.find(aux) < 0:
-				_spawn_floor(Type.Build, i, j)
+				_spawn_floor(Ground.Type.Build, i, j)
 
 
 ## Set a floor instance and add it to scene.
 func _spawn_floor(
-	type: Type,
+	type: Ground.Type,
 	gx: int = 0,
 	gy: int = 0,
 ) -> Ground:
@@ -82,11 +76,11 @@ func _calculate_position(gx: int, gy: int, sprite_size: Vector2) -> Vector2:
 
 
 ## Get Ground instance.
-func get_floor(type: Type, x: int, y: int) -> Ground:
+func get_floor(type: Ground.Type, x: int, y: int) -> Ground:
 	match type:
-		Type.Build:
+		Ground.Type.Build:
 			return Build.new(x, y)
-		Type.Dirt:
+		Ground.Type.Dirt:
 			var road = Road.new(x, y)
 			map_road.append(road)
 			return road

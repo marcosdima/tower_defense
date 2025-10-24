@@ -16,7 +16,7 @@ var next: Road
 var points: Array[Vector2] = []
 
 func _init(x: int, y: int) -> void:
-	type = IsometricMap.Type.Dirt
+	type = Type.Dirt
 	super(x, y)
 
 

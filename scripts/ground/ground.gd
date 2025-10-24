@@ -1,7 +1,13 @@
 class_name Ground
 extends Area2D
 
-var type: IsometricMap.Type = IsometricMap.Type.Grass
+enum Type {
+	Grass,
+	Dirt,
+	Build,
+}
+
+var type: Type = Type.Grass
 var sprite: Sprite2D = Sprite2D.new()
 var sprite_size: Vector2:
 	get():
@@ -53,7 +59,7 @@ func _on_mouse_exited():
 ## Set sprite and its texture.
 func _set_texture():
 	var base = 'res://assets/ground/'
-	var path = '%s/%s.png' % [base, IsometricMap.Type.find_key(type).to_lower()]
+	var path = '%s/%s.png' % [base, Type.find_key(type).to_lower()]
 	sprite.texture = load(path)
 	add_child(sprite)
 
