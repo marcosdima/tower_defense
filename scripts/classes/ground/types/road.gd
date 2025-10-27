@@ -1,12 +1,7 @@
 class_name Road
 extends Ground
 
-enum Point {
-	TopLeft,
-	TopRight,
-	BottomLeft,
-	BottomRight,
-}
+
 
 #var center:
 var path: Path
@@ -23,25 +18,19 @@ func _init(x: int, y: int) -> void:
 func set_points(initial: Point, end: Point):
 	points = []
 	
-	# This was calculated by testing.
-	var top = -(sprite_size.y / 2.9)
-	var bottom = -5
-	var right = sprite_size.x / 4
-	var left = -right
-	
-	#Set different curve points according to the calculated measurements.
-	var center = Vector2(0, -(sprite_size.y / 5))
-	var top_right = Vector2(right, top)
-	var top_left = Vector2(left, top)
-	var bottom_left = Vector2(left, bottom)
-	var right_bottom = Vector2(right, bottom)
+	# Set different curve points according to the calculated measurements.
+	var center = get_center()
+	var top_right = get_top_right()
+	var top_left = get_top_left()
+	var bottom_left = get_bottom_left()
+	var bottom_right = get_bottom_right()
 	
 	var match_func = func(p: Point):
 		match p:
 			Point.TopLeft: points.append(top_left)
 			Point.TopRight: points.append(top_right)
 			Point.BottomLeft: points.append(bottom_left)
-			_: points.append(right_bottom)
+			_: points.append(bottom_right)
 	
 	match_func.call(_get_from(initial))
 	points.append(center)

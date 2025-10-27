@@ -8,6 +8,14 @@ enum Type {
 	Tower,
 }
 
+enum Point {
+	TopLeft,
+	TopRight,
+	BottomLeft,
+	BottomRight,
+	Center,
+}
+
 var type: Type = Type.Grass
 var sprite: Sprite2D = Sprite2D.new()
 var sprite_size: Vector2:
@@ -38,6 +46,7 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 
 
+## Animation: Go up -> Go down. 
 func _move_up_down():
 	var tween = create_tween()
 	var start_pos = sprite.position
@@ -77,3 +86,26 @@ func _set_collision():
 	]
 	
 	add_child(collision)
+
+
+## Calculate principal points.
+func _get_points() -> Dictionary:
+	var top = -(sprite_size.y / 2.9)
+	var bottom = -5
+	var right = sprite_size.x / 4
+	var left = -right
+	var center = Vector2(0, -(sprite_size.y / 5))
+	
+	return {
+		Point.TopLeft: Vector2(left, top),
+		Point.TopRight: Vector2(right, top),
+		Point.BottomLeft: Vector2(left, bottom),
+		Point.BottomRight: Vector2(right, bottom),
+		Point.Center: center,
+	}
+
+func get_top_left() -> Vector2: return _get_points()[Point.TopLeft]
+func get_top_right() -> Vector2: return _get_points()[Point.TopRight]
+func get_bottom_left() -> Vector2: return _get_points()[Point.BottomLeft]
+func get_bottom_right() -> Vector2: return _get_points()[Point.BottomRight]
+func get_center() -> Vector2: return _get_points()[Point.Center]
