@@ -15,7 +15,7 @@ func _init(ente: Entity) -> void:
 
 
 func _process(delta):
-	if path and is_instance_valid(buddy):
+	if path and is_walking and is_instance_valid(buddy):
 		var distance = progress + (buddy.state.curr_speed * delta)
 		
 		if path.ended(distance):
@@ -23,20 +23,12 @@ func _process(delta):
 			return
 		
 		walk_distance(distance)
-		
-		if not is_walking:
-			is_walking = true
-
-
-func set_path(new_path: Path):
-	path = new_path
-	progress = 0
-	path.add_child(self)
 
 
 func leave_path():
 	if !path:
 		return
+	is_walking = false
 	path.remove_child(self)
 	path.handle_end_path(buddy)
 

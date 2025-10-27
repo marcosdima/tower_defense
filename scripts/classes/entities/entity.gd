@@ -12,7 +12,6 @@ var __id: int = -1
 @export var stats: Stats = Stats.new()
 
 var body: CharacterBody2D
-var animate: AnimationPlayer
 
 var state: State:
 	get():
@@ -21,6 +20,7 @@ var state: State:
 		return state
 var movement: Walker
 
+'''  -- Life cycle -- '''
 func _init() -> void:
 	# Id setting.
 	__id = entity_counter
@@ -35,41 +35,21 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	# Set component children.
-	_set_children()
-
-
-func _process(_delta):
-	z_index = int(ENTITY_Z_INDEX + movement.progress)
-	
-	if animate and movement:
-		if movement.is_walking:
-			if not animate.is_playing():
-				animate.play(WALKING)
-		else:
-			animate.stop()
-
-
-func _set_children():
-	var missing: Array = []
-	for c in get_children():
-		if not body and c is CharacterBody2D:
-			body = c
-		elif not animate and c is AnimationPlayer:
-			animate = c
-	
-	if not body:
-		missing.append('CharacterBody2D')
-	if not animate:
-		missing.append('AnimationPlayer')
-	if not missing.is_empty():
-		printerr('Missing: ', missing)
+	set_body()
 
 
 func _exit_tree() -> void:
-	movement.queue_free()
+	if movement:
+		movement.queue_free()
 
 
+''' -- Setter-Getter -- '''
+func set_body():
+	body = CharacterBody2D.new()
+	add_child(body)
+
+
+''' -- Entity Interaction -- '''
 func attacked(amount: float):
 	if state.receive_damage(amount):
 		die()
@@ -81,5 +61,4 @@ func apply_damage(ente: Entity):
 
 
 func die():
-	print("%s was killed..." % [name])
 	queue_free()

@@ -11,7 +11,7 @@ var map_road_coords: Array[Dictionary] = []
 var map_road: Array[Road] = []
 var tower_position: Vector2i
 
-func set_map() -> void:
+func set_map() -> TowerGround:
 	# Set border with grass.
 	_spawn_floor(Ground.Type.Grass, height, width)
 	for i in range(-1, max(width, height)):
@@ -40,7 +40,11 @@ func set_map() -> void:
 	
 	# Set tower position.
 	path_memory.append(tower_position)
-	_spawn_floor(Ground.Type.Tower, tower_position.x, tower_position.y)
+	var tower_ground = _spawn_floor(
+		Ground.Type.Tower,
+		tower_position.x,
+		tower_position.y,
+	)
 	
 	# Fill empty spaces with grass.
 	for i in range(height):
@@ -48,6 +52,8 @@ func set_map() -> void:
 			var aux = Vector2i(i, j)
 			if path_memory.find(aux) < 0:
 				_spawn_floor(Ground.Type.Build, i, j)
+	
+	return tower_ground
 
 
 ## Set a floor instance and add it to scene.

@@ -20,13 +20,13 @@ const coords: Array[Dictionary] = [
 
 const waves: Array[int] = [1, 2, 3, 5, 7, 10]
 
-@export var enemy: PackedScene
 @export var time_between_waves: float = 15.0
 @export var time_between_spawn: float = 0.5
 @export var setup: bool = false:
 	set(value):
 		if value:
 			set_level()
+			_spawn_enemy()
 		value = false
 @export_group("Map", "map_")
 @export var map_width: int = 4
@@ -35,8 +35,12 @@ const waves: Array[int] = [1, 2, 3, 5, 7, 10]
 @export var map_end_direction: Road.Point = Road.Point.BottomRight
 @export var map_tower_position: Vector2i = Vector2i(5, 2)
 
+var game: Game:
+	get():
+		return get_parent()
 var map: IsometricMap
 var path: Path
+var tower: TowerGround
 
 func set_level() -> void:
 	_set_map()
@@ -68,18 +72,17 @@ func _set_map():
 	map.end_direction = map_end_direction
 	map.tower_position = map_tower_position
 	
-	map.set_map()
+	tower = map.set_map()
 
 
-func _spawn_enemy() -> Enemy:
-	var instance = enemy.instantiate()
-	add_child(instance)
-	path.start_walk(instance)
-	return instance
+func _spawn_enemy():
+	var enemy_instance = UFO.new()
+	add_child(enemy_instance)
+	path.add_walker(enemy_instance) 
+	enemy_instance.killed.connect(game.on_kill)
 
 
 func spawn_wave(wave: int):
 	for i in range(waves[wave - 1]):
-		var enemy_instance = _spawn_enemy()
-		enemy_instance.name = '%d-%d' % [wave, i]
+		_spawn_enemy()
 		await get_tree().create_timer(time_between_spawn).timeout

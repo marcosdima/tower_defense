@@ -6,12 +6,21 @@ const WAIT = 100
 var aux_pos: float
 var last_hover_time: int
 var builded: bool = false
+var buy_sign: Buy
 
 func _ready() -> void:
 	super()
+	
 	input_event.connect(_handle_input_event)
 	aux_pos = sprite.position.y
 	mouse_def = Input.CURSOR_POINTING_HAND
+	
+	# Buy sign.
+	var sign_scene = load("res://UI/components/buy/Buy.tscn") as PackedScene
+	buy_sign = sign_scene.instantiate()
+	buy_sign.scale = Vector2.ZERO
+	buy_sign.position = Vector2(0, -60)
+	call_deferred("add_child", buy_sign)
 
 
 ## Overwritten.
@@ -35,8 +44,11 @@ func _handle_input_event(_viewport: Node, event: InputEvent, _shape_idx: int):
 ## Go up animation.
 func _go_up():
 	if builded: return
+	
 	var tween = create_tween()
 	tween.tween_property(sprite, "position:y", aux_pos - 20, 0.2)
+	tween.parallel().tween_property(buy_sign, "scale", Vector2.ONE, 0.2)
+	
 	last_hover_time = Time.get_ticks_msec()
 
 
@@ -44,6 +56,7 @@ func _go_up():
 func _go_down():
 	var tween = create_tween()
 	tween.tween_property(sprite, "position:y", aux_pos, 0.2)
+	tween.parallel().tween_property(buy_sign, "scale", Vector2.ZERO, 0.2)
 
 
 ## Instantiate a tower scene.

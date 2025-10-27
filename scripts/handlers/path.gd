@@ -9,8 +9,15 @@ func _init() -> void:
 		curve = Curve2D.new()
 
 
-func start_walk(ente: Enemy):
-	ente.movement.set_path(self)
+func add_walker(ente: Enemy):
+	var walker = ente.movement
+	walker.path = self
+	walker.progress = 0
+	
+	add_child(walker)
+	ente.global_position = walker.global_position
+	
+	ente.movement.is_walking = true
 
 
 func ended(distance: float) -> bool:

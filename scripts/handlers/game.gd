@@ -6,9 +6,18 @@ const GOLD_BY_KILL = 10
 const TIME_BETWEEN_WAVES = 30 * 1000
 
 # Game variables.
-var gold: int = 0
-var lives: int = 3
-var wave: int = 0
+var gold: int = 0:
+	set(value):
+		gold = value
+		update_hud()
+var lives: int = 3:
+	set(value):
+		lives = value
+		update_hud()
+var wave: int = 0:
+	set(value):
+		wave = value
+		update_hud()
 
 # Game stats.
 var kill_count: int = 0
@@ -36,18 +45,24 @@ func _process(_delta: float) -> void:
 
 ## Routine to set game.
 func start_game() -> void:
+	# Instantiate packed scenes.
 	current_level = level_scene.instantiate()
 	hud = hud_scene.instantiate()
-
+	
+	# Add instances.
 	add_child(current_level)
 	add_child(hud)
 	
+	# Set level.
 	current_level.position = Vector2(500, 200)
 	current_level.set_level()
+	current_level.tower.hitted.connect(on_hitted)
 	
+	# Set hud.
 	hud.next_pressed.connect(next_wave)
 	update_hud()
 	
+	# Set timer.
 	waves_timer.wait_time = current_level.time_between_waves
 	waves_timer.start()
 
@@ -58,6 +73,12 @@ func on_kill():
 	kill_count += 1
 
 
+func on_hitted(body: CharacterBody2D):
+	var enemy: Enemy = body.get_parent()
+	enemy.die()
+	lives -= 1
+
+
 ## Routine to set the new wave.
 func next_wave():
 	if !waves_timer.is_stopped():
@@ -66,7 +87,6 @@ func next_wave():
 	wave += 1
 	current_level.spawn_wave(wave)
 	waves_timer.start()
-	update_hud()
 
 
 ## Updates hud label values.
