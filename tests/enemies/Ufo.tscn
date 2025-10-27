@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfwxtn8fnpex5"]
+
+[ext_resource type="Script" uid="uid://681e70g1jks3" path="res://scripts/classes/entities/enemies/types/ufo.gd" id="1_qiyy8"]
+[ext_resource type="Script" uid="uid://d4a76ibu30gjw" path="res://scripts/classes/entities/resources/stats.gd" id="2_vi7gv"]
+[ext_resource type="Script" uid="uid://wk1mp0hsqtk6" path="res://scripts/utils/figures/circle.gd" id="4_lsqmp"]
+
+[sub_resource type="Resource" id="Resource_qiyy8"]
+script = ExtResource("2_vi7gv")
+
+[node name="Ufo" type="Node2D"]
+z_index = 100
+y_sort_enabled = true
+script = ExtResource("1_qiyy8")
+stats = SubResource("Resource_qiyy8")
+metadata/_custom_type_script = "uid://681e70g1jks3"
+
+[node name="Circle" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.09803922)
+position = Vector2(0, 25)
+scale = Vector2(1.5, 1)
+script = ExtResource("4_lsqmp")
+long = 1.5
+metadata/_custom_type_script = "uid://wk1mp0hsqtk6"
