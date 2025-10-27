@@ -5,3 +5,7 @@ extends Node2D
 	set(value):
 		color = value
 		queue_redraw()
+
+
+func _init(set_color: Color = Color.BLACK) -> void:
+	color = set_color
