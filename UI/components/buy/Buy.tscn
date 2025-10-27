@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb0acokueggf7"]
+
+[ext_resource type="Script" uid="uid://dxa800ww0407w" path="res://UI/components/buy/buy.gd" id="1_cdes3"]
+[ext_resource type="Texture2D" uid="uid://bk0b51hwkaybe" path="res://assets/icons/board.svg" id="2_qf75s"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cdes3"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="Buy" type="Node2D"]
+z_index = 1000
+z_as_relative = false
+script = ExtResource("1_cdes3")
+label_text = "10"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_qf75s")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -32.0
+offset_top = -29.0
+offset_right = 32.0
+offset_bottom = 16.0
+text = "10"
+label_settings = SubResource("LabelSettings_cdes3")
+horizontal_alignment = 1
+vertical_alignment = 1
